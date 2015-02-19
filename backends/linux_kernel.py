@@ -19,12 +19,14 @@
 
 import os
 import errno
-from .interface import usbtmc_backend
+from .interface import Instrument
 from .interface import UsbtmcError, PermissionError, NoSuchFileError
 
-class Backend(usbtmc_backend):
+class Backend(Instrument):
     """ The Linux Kernel Backend """
- 
+
+    length = 4000
+
     def __init__(self, device):
         self.device = device
         try:
@@ -35,26 +37,12 @@ class Backend(usbtmc_backend):
             raise UsbtmcError("unknown error: could not open the file %s: %s" % (device, e))
  
         # TODO: Test that the file opened
- 
-    def write(self, command):
-        os.write(self.FILE, command.encode('ascii'))
- 
-    def read_binary(self, length = 4000):
-        return os.read(self.FILE, length)
 
-    def read(self, length = 4000):
-        binary_response = self.read_binary(length)
-        try:
-            return binary_response.decode('ascii')
-        except Exception as e:
-            raise UsbtmcError('Could not decode this message:\n' + str(e))
-
-    def getIDN(self):
-        self.write("*IDN?")
-        return self.read(300)
+    def write_raw(self, command):
+        os.write(self.FILE, command)
  
-    def sendReset(self):
-        self.write("*RST")
+    def read_raw(self, num):
+        return os.read(self.FILE, self.length)
 
     def __del__(self):
         try: os.close(self.FILE)

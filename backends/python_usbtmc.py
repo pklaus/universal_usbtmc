@@ -1,10 +1,19 @@
 
 import usbtmc
-from .interface import usbtmc_backend
+from .interface import Instrument
 
-class Backend(usbtmc_backend):
+class Backend(Instrument):
+    """ A backend for python-usbtmc
+        https://github.com/alexforencich/python-usbtmc
+    """
+
     def __init__(self, device):
-        instr = usbtmc.Instrument(device)
-        print(instr.ask("*IDN?"))
+        self.instr = usbtmc.Instrument(device)
+
+    def read_raw(self, num):
+        self.instr.
+
+    def write_raw(self, cmd):
+        return self.instr.write_raw()
 
 
