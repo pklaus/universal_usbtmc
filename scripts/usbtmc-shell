@@ -1,0 +1,24 @@
+#!/usr/bin/env python
+
+"""
+A shell for USBTMC devices
+"""
+
+def main():
+    import argparse
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--backend', '-b', default='linux_kernel',
+        help='The backend to use')
+    parser.add_argument('device', help='')
+    args = parser.parse_args()
+
+    if args.backend == 'linux_kernel':
+        from backends.linux_kernel import Backend
+    else:
+        parser.error('choose a valid backend')
+    be = Backend(args.device)
+    print(be.ask("*IDN?"))
+
+if __name__ == "__main__":
+    main()
+
