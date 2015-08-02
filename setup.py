@@ -8,7 +8,7 @@ License: GPLv3
 
 from distutils.core import setup
 
-setup(name='usbtmc',
+setup(name='universal_usbtmc',
       version = '0.2.0',
       description = 'United interface to different USBTMC implementations in Python',
       long_description = '',
@@ -16,7 +16,7 @@ setup(name='usbtmc',
       author_email = 'philipp.l.klaus@web.de',
       url = '',
       license = 'GPL',
-      packages = ['usbtmc', 'usbtmc.backends'],
+      packages = ['universal_usbtmc', 'universal_usbtmc.backends'],
       scripts = ['scripts/usbtmc-shell',],
       zip_safe = True,
       platforms = 'any',

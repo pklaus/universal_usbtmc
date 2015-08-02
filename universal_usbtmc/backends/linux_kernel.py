@@ -19,8 +19,8 @@
 
 import os
 import errno
-from usbtmc import Instrument
-from usbtmc import UsbtmcError, PermissionError, NoSuchFileError
+from universal_usbtmc import Instrument
+from universal_usbtmc import UsbtmcError, PermissionError, NoSuchFileError
 
 class Backend(Instrument):
     """ The Linux Kernel Backend """
