@@ -23,7 +23,7 @@ class Instrument(object):
         self.write_raw(data)
         return self.read_raw(num)
     
-    def write(self, message, encoding = 'utf-8'):
+    def write(self, message, encoding='utf-8'):
         "Write string to instrument"
         if type(message) is tuple or type(message) is list:
             # recursive call for a list of commands
@@ -33,11 +33,11 @@ class Instrument(object):
         
         self.write_raw(str(message).encode(encoding))
 
-    def read(self, num=-1, encoding = 'utf-8'):
+    def read(self, num=-1, encoding='utf-8'):
         "Read string from instrument"
         return self.read_raw(num).decode(encoding).rstrip('\r\n')
 
-    def ask(self, message, num=-1, encoding = 'utf-8'):
+    def ask(self, message, num=-1, encoding='utf-8'):
         "Write then read string"
         if type(message) is tuple or type(message) is list:
             # recursive call for a list of commands
@@ -68,13 +68,13 @@ class Instrument(object):
 class UsbtmcError(Exception):
     pass
 
-class PermissionError(UsbtmcError):
+class UsbtmcPermissionError(UsbtmcError):
     pass
 
-class NoSuchFileError(UsbtmcError):
+class UsbtmcNoSuchFileError(UsbtmcError):
     pass
 
-class ReadTimeoutError(UsbtmcError, TimeoutError):
+class UsbtmcReadTimeoutError(UsbtmcError, TimeoutError):
     pass
 
 

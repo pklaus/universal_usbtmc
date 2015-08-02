@@ -1,8 +1,9 @@
 
 import usbtmc
-from universal_usbtmc import Instrument
 
-class Backend(Instrument):
+import universal_usbtmc
+
+class Instrument(universal_usbtmc.Instrument):
     """ A backend for python-usbtmc
         https://github.com/alexforencich/python-usbtmc
     """

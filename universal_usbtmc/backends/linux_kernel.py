@@ -19,10 +19,12 @@
 
 import os
 import errno
-from universal_usbtmc import Instrument
-from universal_usbtmc import UsbtmcError, PermissionError, NoSuchFileError, ReadTimeoutError
+import time
 
-class Backend(Instrument):
+import universal_usbtmc
+from universal_usbtmc import UsbtmcError, UsbtmcPermissionError, UsbtmcNoSuchFileError, UsbtmcReadTimeoutError
+
+class Instrument(universal_usbtmc.Instrument):
     """ The Linux Kernel Backend """
 
     length = 4000
@@ -32,8 +34,8 @@ class Backend(Instrument):
         try:
             self.FILE = os.open(device, os.O_RDWR)
         except OSError as e:
-            if e.errno == errno.EACCES: raise PermissionError()
-            if e.errno == errno.ENOENT: raise NoSuchFileError()
+            if e.errno == errno.EACCES: raise UsbtmcPermissionError()
+            if e.errno == errno.ENOENT: raise UsbtmcNoSuchFileError()
             raise UsbtmcError("unknown error: could not open the file %s: %s" % (device, e))
  
         # TODO: Test that the file opened
