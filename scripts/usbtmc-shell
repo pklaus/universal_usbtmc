@@ -5,6 +5,7 @@ A shell for USBTMC devices
 """
 
 import argparse
+from builtins import input
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
@@ -22,6 +23,12 @@ def main():
         parser.error('choose a valid backend')
     be = Backend(args.device)
     print(be.ask("*IDN?"))
+    try:
+        while True:
+            cmd = input('> ')
+            print(be.ask(cmd))
+    except KeyboardInterrupt as e:
+        print('Exiting...')
 
 if __name__ == "__main__":
     main()
