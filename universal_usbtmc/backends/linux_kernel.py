@@ -29,6 +29,11 @@ class Instrument(universal_usbtmc.Instrument):
 
     length = 4000
 
+    SLEEPTIME_BEFORE_WRITE =  0E-3
+    SLEEPTIME_AFTER_WRITE =  20E-3
+    SLEEPTIME_BEFORE_READ =  30E-3
+    SLEEPTIME_AFTER_READ =    5E-3
+
     def __init__(self, device):
         self.device = device
         try:
@@ -41,13 +46,18 @@ class Instrument(universal_usbtmc.Instrument):
         # TODO: Test that the file opened
 
     def write_raw(self, command):
+        time.sleep(self.SLEEPTIME_BEFORE_WRITE)
         os.write(self.FILE, command)
+        time.sleep(self.SLEEPTIME_AFTER_WRITE)
  
     def read_raw(self, num):
         try:
-            return os.read(self.FILE, self.length)
+            time.sleep(self.SLEEPTIME_BEFORE_READ)
+            ret = os.read(self.FILE, self.length)
+            time.sleep(self.SLEEPTIME_AFTER_READ)
+            return ret
         except TimeoutError:
-            raise ReadTimeoutError()
+            raise UsbtmcReadTimeoutError()
 
     def __del__(self):
         try: os.close(self.FILE)
