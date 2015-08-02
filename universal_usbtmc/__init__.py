@@ -74,6 +74,9 @@ class PermissionError(UsbtmcError):
 class NoSuchFileError(UsbtmcError):
     pass
 
+class ReadTimeoutError(UsbtmcError, TimeoutError):
+    pass
+
 
 def list_devices():
     raise NotImplementedError()

@@ -7,6 +7,15 @@ A shell for USBTMC devices
 import argparse
 from builtins import input
 
+from universal_usbtmc import ReadTimeoutError
+
+HOWTO = """
+Enter a command. It will directly be sent to the USBTMC device.
+If the command ends with a question mark ('?'), the answer
+will be read from the device.
+Quit the shell with  'quit'  or by pressing Ctrl-C
+"""
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--backend', '-b', #choices=('linux_kernel', 'python_usbtmc'),
@@ -22,13 +31,27 @@ def main():
     else:
         parser.error('choose a valid backend')
     be = Backend(args.device)
+    print(HOWTO)
+    print('> *IDN?')
     print(be.ask("*IDN?"))
     try:
         while True:
             cmd = input('> ')
-            print(be.ask(cmd))
+            cmd = cmd.strip()
+            if cmd in ('quit', 'exit'):
+                break
+            try:
+                if cmd.endswith('?'):
+                    print(be.ask(cmd))
+                else:
+                    be.write(cmd)
+            except ReadTimeoutError:
+                print('Timeout occured')
     except KeyboardInterrupt as e:
-        print('Exiting...')
+        print('\nCtrl-C pressed.')
+    except EOFError:
+        pass
+    print('Exiting...')
 
 if __name__ == "__main__":
     main()

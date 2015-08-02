@@ -20,7 +20,7 @@
 import os
 import errno
 from universal_usbtmc import Instrument
-from universal_usbtmc import UsbtmcError, PermissionError, NoSuchFileError
+from universal_usbtmc import UsbtmcError, PermissionError, NoSuchFileError, ReadTimeoutError
 
 class Backend(Instrument):
     """ The Linux Kernel Backend """
@@ -42,7 +42,10 @@ class Backend(Instrument):
         os.write(self.FILE, command)
  
     def read_raw(self, num):
-        return os.read(self.FILE, self.length)
+        try:
+            return os.read(self.FILE, self.length)
+        except TimeoutError:
+            raise ReadTimeoutError()
 
     def __del__(self):
         try: os.close(self.FILE)
