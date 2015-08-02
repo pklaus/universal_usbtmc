@@ -4,8 +4,9 @@
 A shell for USBTMC devices
 """
 
+import argparse
+
 def main():
-    import argparse
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--backend', '-b', default='linux_kernel',
         help='The backend to use')
@@ -13,7 +14,7 @@ def main():
     args = parser.parse_args()
 
     if args.backend == 'linux_kernel':
-        from backends.linux_kernel import Backend
+        from usbtmc.backends.linux_kernel import Backend
     else:
         parser.error('choose a valid backend')
     be = Backend(args.device)

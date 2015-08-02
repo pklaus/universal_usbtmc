@@ -1,6 +1,5 @@
 
-import usbtmc
-from .interface import Instrument
+from usbtmc import Instrument
 
 class Backend(Instrument):
     """ A backend for python-usbtmc
@@ -11,9 +10,9 @@ class Backend(Instrument):
         self.instr = usbtmc.Instrument(device)
 
     def read_raw(self, num):
-        self.instr.
+        self.instr.read_raw(num)
 
     def write_raw(self, cmd):
-        return self.instr.write_raw()
+        return self.instr.write_raw(cmd)
 
 
