@@ -33,8 +33,8 @@ class Instrument(universal_usbtmc.Instrument):
     length = 4000
 
     SLEEPTIME_BEFORE_WRITE =  0E-3
-    SLEEPTIME_AFTER_WRITE =  20E-3
-    SLEEPTIME_BEFORE_READ =  30E-3
+    SLEEPTIME_AFTER_WRITE =   5E-3
+    SLEEPTIME_BEFORE_READ =   5E-3
     SLEEPTIME_AFTER_READ =    5E-3
 
     def __init__(self, device):
