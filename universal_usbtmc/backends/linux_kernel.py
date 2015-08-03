@@ -1,8 +1,8 @@
-# pyOscilloskop
+# universal_usbtmc/backends/linux_kernel.py
 # -*- encoding: UTF8 -*-
 #
 # Copyright (19.2.2011) Sascha Brinkmann
-#           (2012) Philipp Klaus
+#           (2012-2015) Philipp Klaus
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,9 +20,12 @@
 import os
 import errno
 import time
+import logging
 
 import universal_usbtmc
 from universal_usbtmc import UsbtmcError, UsbtmcPermissionError, UsbtmcNoSuchFileError, UsbtmcReadTimeoutError
+
+logger = logging.getLogger(__name__)
 
 class Instrument(universal_usbtmc.Instrument):
     """ The Linux Kernel Backend """
@@ -47,6 +50,7 @@ class Instrument(universal_usbtmc.Instrument):
 
     def write_raw(self, command):
         time.sleep(self.SLEEPTIME_BEFORE_WRITE)
+        logger.debug('write_raw(' + str(command) + ')')
         os.write(self.FILE, command)
         time.sleep(self.SLEEPTIME_AFTER_WRITE)
  
@@ -54,6 +58,7 @@ class Instrument(universal_usbtmc.Instrument):
         try:
             time.sleep(self.SLEEPTIME_BEFORE_READ)
             ret = os.read(self.FILE, self.length)
+            logger.debug('read_raw() returns ' + str(ret))
             time.sleep(self.SLEEPTIME_AFTER_READ)
             return ret
         except TimeoutError:
