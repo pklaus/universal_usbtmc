@@ -9,7 +9,7 @@ License: GPLv3
 from distutils.core import setup
 
 setup(name='universal_usbtmc',
-      version = '0.2.0',
+      version = '0.3.0',
       description = 'United interface to different USBTMC implementations in Python',
       long_description = '',
       author = 'Philipp Klaus',
@@ -26,8 +26,8 @@ setup(name='universal_usbtmc',
           'Operating System :: OS Independent',
           'License :: OSI Approved :: GPL License',
           'Programming Language :: Python',
+          'Programming Language :: Python :: 2',
           'Programming Language :: Python :: 3',
-          'Programming Language :: Python :: 3.2',
           'Topic :: System :: Monitoring',
           'Topic :: System :: Logging',
       ]
