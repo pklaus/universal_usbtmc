@@ -29,7 +29,8 @@ class Instrument(universal_usbtmc.Instrument):
     EOL = ''
     #EOL = '\n'
     socket_timeout = .05
-    min_wait = 0.1
+    min_wait = 0.9
+    wait_after_write = 20E-3
 
     def __init__(self, host, port=5025):
         self.host = host
@@ -45,7 +46,9 @@ class Instrument(universal_usbtmc.Instrument):
     def write_raw(self, cmd):
         logger.debug('write_raw(' + str(cmd) + ')')
         self.s.sendall(cmd)
-        time.sleep(0.05)
+        # I sleep here, because sometimes subsequent messages are being joined on the receiving end...
+        time.sleep(self.wait_after_write)
+
 
     def read_raw(self, length=1024*1024+1024, wait_long=0.0):
         ret = b""
@@ -57,7 +60,7 @@ class Instrument(universal_usbtmc.Instrument):
             except socket.timeout:
                 if (clock() - start) > wait: break
                 if len(ret): break
-        if not len(ret): raise UsbtmcReadTimeoutError()
         logger.debug('read_raw() returns ' + str(ret))
+        if not len(ret): raise UsbtmcReadTimeoutError()
         return ret
 
