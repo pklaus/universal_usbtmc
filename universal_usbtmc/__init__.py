@@ -3,7 +3,8 @@ class Instrument(object):
 
     "USBTMC instrument interface"
 
-    #def __init__(self, *args, **kwargs):
+    ENCODING = 'utf-8'
+
     def __init__(self, device):
         raise NotImplementedError()
     
@@ -18,13 +19,14 @@ class Instrument(object):
         "Read binary data from instrument"
         raise NotImplementedError()
     
-    def ask_raw(self, data, num=-1):
+    def query_raw(self, data, num=-1):
         "Write then read binary data"
         self.write_raw(data)
         return self.read_raw(num)
     
-    def write(self, message, encoding='utf-8'):
+    def write(self, message, encoding='default'):
         "Write string to instrument"
+        encoding = self.ENCODING if encoding == 'default' else encoding
         if type(message) is tuple or type(message) is list:
             # recursive call for a list of commands
             for message_i in message:
@@ -33,26 +35,29 @@ class Instrument(object):
         
         self.write_raw(str(message).encode(encoding))
 
-    def read(self, num=-1, encoding='utf-8'):
+    def read(self, num=-1, encoding='default'):
+        encoding = self.ENCODING if encoding == 'default' else encoding
         "Read string from instrument"
         return self.read_raw(num).decode(encoding).rstrip('\r\n')
 
-    def ask(self, message, num=-1, encoding='utf-8'):
+    def query(self, message, num=-1, encoding='default'):
+        encoding = self.ENCODING if encoding == 'default' else encoding
         "Write then read string"
         if type(message) is tuple or type(message) is list:
             # recursive call for a list of commands
             val = list()
             for message_i in message:
-                val.append(self.ask(message_i, num, encoding))
+                val.append(self.query(message_i, num=num, encoding=encoding))
             return val
         
-        self.write(message, encoding)
-        return self.read(num, encoding)
+        self.write(message, encoding=encoding)
+        return self.read(num, encoding=encoding)
 
     def sendReset(self):
         self.write("*RST")
 
-    def getIDN(self):
+    @property
+    def idn(self):
         self.write("*IDN?")
         return self.read(300)
  
@@ -73,6 +78,12 @@ class UsbtmcPermissionError(UsbtmcError):
 
 class UsbtmcNoSuchFileError(UsbtmcError):
     pass
+
+try:
+    TimeoutError
+except NameError:
+    class TimeoutError(OSError):
+        pass
 
 class UsbtmcReadTimeoutError(UsbtmcError, TimeoutError):
     pass

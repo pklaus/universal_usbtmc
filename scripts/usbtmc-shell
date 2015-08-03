@@ -28,12 +28,14 @@ def main():
         from universal_usbtmc.backends.linux_kernel import Instrument
     elif args.backend == 'python_usbtmc':
         from universal_usbtmc.backends.python_usbtmc import Instrument
+    elif args.backend == 'tcp_socket':
+        from universal_usbtmc.backends.tcp_socket import Instrument
     else:
         parser.error('choose a valid backend')
     be = Instrument(args.device)
     print(HOWTO)
     print('> *IDN?')
-    print(be.ask("*IDN?"))
+    print(be.query("*IDN?"))
     try:
         while True:
             cmd = input('> ')
@@ -42,7 +44,7 @@ def main():
                 break
             try:
                 if cmd.endswith('?'):
-                    print(be.ask(cmd))
+                    print(be.query(cmd))
                 else:
                     be.write(cmd)
             except UsbtmcReadTimeoutError:
