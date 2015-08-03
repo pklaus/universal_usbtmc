@@ -30,8 +30,6 @@ logger = logging.getLogger(__name__)
 class Instrument(universal_usbtmc.Instrument):
     """ The Linux Kernel Backend """
 
-    length = 4000
-
     SLEEPTIME_BEFORE_WRITE =  0E-3
     SLEEPTIME_AFTER_WRITE =   5E-3
     SLEEPTIME_BEFORE_READ =   5E-3
@@ -54,10 +52,10 @@ class Instrument(universal_usbtmc.Instrument):
         os.write(self.FILE, command)
         time.sleep(self.SLEEPTIME_AFTER_WRITE)
  
-    def read_raw(self, num):
+    def read_raw(self, num=1024*1024+1024):
         try:
             time.sleep(self.SLEEPTIME_BEFORE_READ)
-            ret = os.read(self.FILE, self.length)
+            ret = os.read(self.FILE, num)
             logger.debug('read_raw() returns ' + str(ret))
             time.sleep(self.SLEEPTIME_AFTER_READ)
             return ret

@@ -28,7 +28,8 @@ class Instrument(universal_usbtmc.Instrument):
 
     EOL = ''
     #EOL = '\n'
-    timeout = .02
+    socket_timeout = .05
+    min_wait = 0.1
 
     def __init__(self, host, port=5025):
         self.host = host
@@ -37,30 +38,25 @@ class Instrument(universal_usbtmc.Instrument):
 
     def connect(self):
         try:
-            self.s = socket.create_connection((self.host, self.port), self.timeout)
+            self.s = socket.create_connection((self.host, self.port), self.socket_timeout)
         except (ConnectionRefusedError, socket.gaierror) as e:
             raise UsbtmcError("Connection to host {} could not be established: {}".format(self.host, e))
-
-    #def write(self, cmd, encoding='default'):
-    #    encoding = self.ENCODING if encoding == 'default' else encoding
-    #    self.write_raw((cmd + self.EOL).encode(encoding))
 
     def write_raw(self, cmd):
         logger.debug('write_raw(' + str(cmd) + ')')
         self.s.sendall(cmd)
         time.sleep(0.05)
 
-    def read_raw(self, wait_long=0.):
+    def read_raw(self, length=1024*1024+1024, wait_long=0.0):
         ret = b""
         start = clock()
+        wait = max(self.min_wait, wait_long)
         while True:
             try:
-                ret += self.s.recv(1024*1024+1024)
+                ret += self.s.recv(length)
             except socket.timeout:
-                if not wait_long: break
-                else:
-                    if clock() - start > wait_long: break
-                    if len(ret): break
+                if (clock() - start) > wait: break
+                if len(ret): break
         if not len(ret): raise UsbtmcReadTimeoutError()
         logger.debug('read_raw() returns ' + str(ret))
         return ret
