@@ -58,8 +58,7 @@ class Instrument(object):
 
     @property
     def idn(self):
-        self.write("*IDN?")
-        return self.read(300)
+        return self.query("*IDN?", 300)
  
     def remote(self):
         "Send remote command"
