@@ -48,10 +48,10 @@ The source code of the kernel module can be found [here][usbtmc.c].
 
 To use this backend, you must be using a Linux kernel
 and have the kernel module compiled and loaded.
-Check for `/dev/usbtmc0` (and counting) devices to check
-if your USBTMC device is detected.
+Look for the device `/dev/usbtmc0` to check
+your USBTMC device is detected.
 
-You can check if everything works with:
+You can run the usbtmc shell to check if everything works OK:
 
     usbtmc-shell --backend linux_kernel /dev/usbtmc0
 
@@ -59,14 +59,14 @@ You can check if everything works with:
 
 Uses the libusb-/PyUSB-based [python-usbtmc][].
 
+Here's how to use the usbtmc shell with it:
+
+    usbtmc-shell --backend python_usbtmc USB::0x1ab1::0x0588::INSTR
+
 To use the backend `python_usbtmc`, you need to install the requirements python-usbtmc and pyusb:
 
     pip install https://github.com/alexforencich/python-usbtmc/archive/master.zip
     pip install https://github.com/walac/pyusb/archive/master.zip
-
-Here's how to use it:
-
-    usbtmc-shell --backend python_usbtmc USB::0x1ab1::0x0588::INSTR
 
 The backend works on Mac OS X and Linux.
 
@@ -98,4 +98,4 @@ Off course, you need to install [PySerial][] first! The backend works on all ope
 [usbtmc.c]: https://github.com/torvalds/linux/blob/master/drivers/usb/class/usbtmc.c
 [PySerial]: http://pyserial.sourceforge.net/
 [python-usbtmc]: https://github.com/python-ivi/python-usbtmc
-
+[rpi-usbtmc-gateway]: https://github.com/pklaus/rpi-usbtmc-gateway
