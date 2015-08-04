@@ -43,7 +43,7 @@ def main():
             if cmd in ('quit', 'exit'):
                 break
             try:
-                if cmd.endswith('?'):
+                if '?' in cmd:
                     print(be.query(cmd))
                 else:
                     be.write(cmd)
