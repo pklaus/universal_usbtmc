@@ -43,8 +43,6 @@ class Instrument(universal_usbtmc.Instrument):
             if e.errno == errno.EACCES: raise UsbtmcPermissionError()
             if e.errno == errno.ENOENT: raise UsbtmcNoSuchFileError()
             raise UsbtmcError("unknown error: could not open the file %s: %s" % (device, e))
- 
-        # TODO: Test that the file opened
 
     def write_raw(self, command):
         time.sleep(self.SLEEPTIME_BEFORE_WRITE)
