@@ -44,7 +44,11 @@ def main():
                 break
             try:
                 if '?' in cmd:
-                    print(be.query(cmd))
+                    ret = be.query_raw(cmd)
+                    try:
+                        print(ret.decode('utf-8'))
+                    except UnicodeDecodeError:
+                        print('binary message:', ret)
                 else:
                     be.write(cmd)
             except UsbtmcReadTimeoutError:

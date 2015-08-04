@@ -19,9 +19,9 @@ class Instrument(object):
         "Read binary data from instrument"
         raise NotImplementedError()
     
-    def query_raw(self, data, num=-1):
-        "Write then read binary data"
-        self.write_raw(data)
+    def query_raw(self, message, encoding='default', num=-1):
+        "Write with normal write() then ruturn binary data from read_raw()"
+        self.write(message)
         return self.read_raw(num)
     
     def write(self, message, encoding='default'):
