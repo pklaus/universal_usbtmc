@@ -1,7 +1,8 @@
 
-import usbtmc
-
 import universal_usbtmc
+
+# This is usbtmc from https://github.com/python-ivi/python-usbtmc
+import usbtmc
 
 class Instrument(universal_usbtmc.Instrument):
     """ A backend for python-usbtmc
@@ -12,9 +13,9 @@ class Instrument(universal_usbtmc.Instrument):
         self.instr = usbtmc.Instrument(device)
 
     def read_raw(self, num):
-        self.instr.read_raw(num)
+        return self.instr.read_raw(num)
 
     def write_raw(self, cmd):
-        return self.instr.write_raw(cmd)
+        self.instr.write_raw(cmd)
 
 
