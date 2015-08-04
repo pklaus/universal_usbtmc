@@ -15,7 +15,7 @@ class Instrument(object):
         "Write binary data to instrument"
         raise NotImplementedError()
 
-    def read_raw(self, num=-1):
+    def read_raw(self, num=-1, timeout=0.0):
         "Read binary data from instrument"
         raise NotImplementedError()
     

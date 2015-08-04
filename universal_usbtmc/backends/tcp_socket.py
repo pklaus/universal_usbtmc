@@ -50,10 +50,10 @@ class Instrument(universal_usbtmc.Instrument):
         time.sleep(self.wait_after_write)
 
 
-    def read_raw(self, length=1024*1024+1024, wait_long=0.0):
+    def read_raw(self, length=1024*1024+1024, timeout=0.0):
         ret = b""
         start = clock()
-        wait = max(self.min_wait, wait_long)
+        wait = max(self.min_wait, timeout)
         while True:
             try:
                 ret += self.s.recv(length)

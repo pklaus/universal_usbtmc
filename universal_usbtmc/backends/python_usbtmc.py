@@ -12,7 +12,7 @@ class Instrument(universal_usbtmc.Instrument):
     def __init__(self, device):
         self.instr = usbtmc.Instrument(device)
 
-    def read_raw(self, num):
+    def read_raw(self, num, timeout=0.0):
         return self.instr.read_raw(num)
 
     def write_raw(self, cmd):

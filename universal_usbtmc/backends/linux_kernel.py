@@ -52,7 +52,7 @@ class Instrument(universal_usbtmc.Instrument):
         os.write(self.FILE, command)
         time.sleep(self.SLEEPTIME_AFTER_WRITE)
  
-    def read_raw(self, num=1024*1024+1024):
+    def read_raw(self, num=1024*1024+1024, timeout=0.):
         try:
             time.sleep(self.SLEEPTIME_BEFORE_READ)
             ret = os.read(self.FILE, num)
