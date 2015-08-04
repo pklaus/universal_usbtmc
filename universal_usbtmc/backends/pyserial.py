@@ -18,6 +18,8 @@ import universal_usbtmc
 # PySerial:
 import serial
 
+logger = logging.getLogger(__name__)
+
 def parse_visa_resource_string(resource_string):
     # valid resource strings:
     # ASRL1::INSTR
@@ -132,6 +134,8 @@ class Instrument(universal_usbtmc.Instrument):
         if self.term_char is not None:
             data += str(self.term_char).encode('utf-8')
         
+        logger.debug('write_raw(' + repr(data) + ')')
+
         self.serial.write(data)
         
         if self.message_delay > 0:
@@ -150,10 +154,12 @@ class Instrument(universal_usbtmc.Instrument):
         while True:
             c = self.serial.read(1)
             if c == term_char:
+                logger.debug('read_raw() read ' + repr(data + c))
                 break
             data += c
             num -= 1
             if num == 0:
+                logger.debug('read_raw() read ' + repr(data))
                 break
             
         return data
