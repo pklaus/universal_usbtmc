@@ -13,7 +13,7 @@ It also comes with an interactive USBTMC shell.
 You can use the following instrument implementations
 ("backends") in your software:
 
-* USBTMC (via Linux kernel module or Python/libusb)
+* USBTMC via Linux kernel module or python-usbtmc (uses libusb)
 * TCP Socket (remote connection e.g. via [rpi-usbtmc-gateway][])
 * RS232
 
