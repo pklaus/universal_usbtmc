@@ -7,6 +7,7 @@ A shell for USBTMC devices
 import argparse
 from builtins import input
 
+from universal_usbtmc import import_backend
 from universal_usbtmc import UsbtmcReadTimeoutError
 
 HOWTO = """
@@ -24,13 +25,10 @@ def main():
     parser.add_argument('device', help='')
     args = parser.parse_args()
 
-    if args.backend == 'linux_kernel':
-        from universal_usbtmc.backends.linux_kernel import Instrument
-    elif args.backend == 'python_usbtmc':
-        from universal_usbtmc.backends.python_usbtmc import Instrument
-    elif args.backend == 'tcp_socket':
-        from universal_usbtmc.backends.tcp_socket import Instrument
-    else:
+    try:
+        backend = import_backend(args.backend)
+        Instrument = backend.Instrument
+    except ImportError:
         parser.error('choose a valid backend')
     be = Instrument(args.device)
     print(HOWTO)
