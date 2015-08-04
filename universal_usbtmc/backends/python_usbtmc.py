@@ -1,8 +1,12 @@
 
+import logging
+
 import universal_usbtmc
 
 # This is usbtmc from https://github.com/python-ivi/python-usbtmc
 import usbtmc
+
+logger = logging.getLogger(__name__)
 
 class Instrument(universal_usbtmc.Instrument):
     """ A backend for python-usbtmc
@@ -13,9 +17,10 @@ class Instrument(universal_usbtmc.Instrument):
         self.instr = usbtmc.Instrument(device)
 
     def read_raw(self, num, timeout=0.0):
-        return self.instr.read_raw(num)
+        ret = self.instr.read_raw(num)
+        logger.debug('read_raw() read ' + repr(ret))
+        return ret
 
-    def write_raw(self, cmd):
-        self.instr.write_raw(cmd)
-
-
+    def write_raw(self, data):
+        logger.debug('write_raw(' + repr(data) + ')')
+        self.instr.write_raw(data)
