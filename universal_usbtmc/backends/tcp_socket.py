@@ -50,13 +50,14 @@ class Instrument(universal_usbtmc.Instrument):
         time.sleep(self.wait_after_write)
 
 
-    def read_raw(self, length=1024*1024+1024, timeout=0.0):
+    def read_raw(self, num=-1, timeout=0.0):
+        if num == -1: num = 1024*1024+1024
         ret = b""
         start = clock()
         wait = max(self.min_wait, timeout)
         while True:
             try:
-                ret += self.s.recv(length)
+                ret += self.s.recv(num)
             except socket.timeout:
                 if (clock() - start) > wait: break
                 if len(ret): break
