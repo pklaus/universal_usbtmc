@@ -25,9 +25,12 @@ def main():
     parser.add_argument('--backend', '-b', #choices=('linux_kernel', 'python_usbtmc'),
         default='linux_kernel',
         help='The backend to use')
+    parser.add_argument('--line-ending', default='',
+        help="The line ending to add to commands you're sending")
     parser.add_argument('device', help='')
     args = parser.parse_args()
 
+    args.line_ending = args.line_ending.replace("\\n", "\n").replace("\\r","\r")
     try:
         backend = import_backend(args.backend)
         Instrument = backend.Instrument
@@ -43,11 +46,12 @@ def main():
             cmd = cmd.strip()
             if cmd in ('quit', 'exit'):
                 break
+            cmd = cmd + args.line_ending
             try:
                 if '?' in cmd:
                     ret = be.query_raw(cmd)
                     try:
-                        print(ret.decode('utf-8'))
+                        print(ret.decode('utf-8').rstrip(args.line_ending))
                     except UnicodeDecodeError:
                         print('binary message:', ret)
                 else:
