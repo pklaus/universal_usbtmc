@@ -5,10 +5,13 @@ A shell for USBTMC devices
 """
 
 import argparse
-from builtins import input
 
 from universal_usbtmc import import_backend
 from universal_usbtmc import UsbtmcReadTimeoutError
+
+# Py2 fix for input()
+try: input = raw_input
+except NameError: pass
 
 HOWTO = """
 Enter a command. It will directly be sent to the USBTMC device.
