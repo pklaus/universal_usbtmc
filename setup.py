@@ -20,7 +20,7 @@ except (ImportError, IOError, RuntimeError):
     pass
 
 setup(name='universal_usbtmc',
-      version = '0.3-dev',
+      version = '0.3.2',
       description = desc,
       long_description = ldesc,
       author = 'Philipp Klaus',
