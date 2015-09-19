@@ -1,0 +1,46 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+#
+# universal_usbtmc documentation build configuration file
+
+import sys
+import os
+import shlex
+
+sys.path.insert(0, '..')
+
+# General information about the project.
+project = 'universal_usbtmc'
+copyright = '2015, Philipp Klaus'
+author = 'Philipp Klaus'
+version = 'v0.3.dev'
+release = 'v0.3.dev'
+
+extensions = ['sphinx.ext.autodoc',]
+templates_path = ['_templates']
+source_suffix = '.rst'
+master_doc = 'index'
+language = 'en'
+exclude_patterns = ['_build']
+add_module_names = True
+pygments_style = 'sphinx'
+#keep_warnings = True
+on_rtd = os.environ.get('READTHEDOCS') == 'True'
+if not on_rtd:
+    # https://docs.readthedocs.org/en/latest/theme.html
+    import sphinx_rtd_theme
+    html_theme = 'sphinx_rtd_theme'
+    html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
+# Custom sidebar templates, maps document names to template names.
+#html_sidebars = {}
+html_domain_indices = False
+html_use_index = False
+html_show_sourcelink = False
+html_show_sphinx = False
+htmlhelp_basename = 'universal_usbtmc_doc'
+
+# -- Options for LaTeX output ---------------------------------------------
+latex_documents = [
+  (master_doc, 'universal_usbtmc.tex', 'universal_usbtmc Documentation',
+   'Philipp Klaus', 'manual'),
+]
