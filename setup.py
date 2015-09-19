@@ -1,14 +1,9 @@
 # -*- coding: utf-8 -*-
 
 """
-United interface to different USBTMC (or "SCPI")
-intstrument implementations in Python.
+Universal Python Interface For Different USBTMC Backends.
 
-This package facilitates using USBTMC devices with Python
-via quite some different ways of accessing them ("backends").
-This allows you to write very platform independent code.
-
-Go to https://github.com/pklaus/universal_usbtmc for more information.
+Github: https://github.com/pklaus/universal_usbtmc
 
 Copyright (c) 2015, Philipp Klaus. All rights reserved.
 """
@@ -17,6 +12,12 @@ from setuptools import setup
 
 desc  = __doc__.split('\n\n')[0]
 ldesc = '\n\n'.join(__doc__.split('\n\n')[1:-1])
+try:
+    import pypandoc
+    tmp_txt = open('README.md', 'r').read()
+    ldesc += '\n\n' + pypandoc.convert(tmp_txt, 'rst', format='md')
+except (ImportError, IOError, RuntimeError):
+    pass
 
 setup(name='universal_usbtmc',
       version = '0.3-dev',

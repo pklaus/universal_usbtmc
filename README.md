@@ -1,44 +1,49 @@
 
 ### A Universal USBTMC Package for Python
 
-This is an effort to fix the clutter
+`universal_usbtmc` is an effort to fix the clutter
 of USBTMC implementations for Python.
 
-This project provides a unified interface to
-the different ways and implementations to talk
-to USBTMC instruments.
+This project provides a unified interface to the different ways/
+implementations ("backends") to talk to USBTMC devices ("instruments").
+This allows you to write very platform independent code.
 
 It also comes with an interactive USBTMC shell.
 
 You can use the following instrument implementations
 ("backends") in your software:
 
-* USBTMC via Linux kernel module or python-usbtmc (uses libusb)
+* USBTMC via the Linux kernel module
+* USBTMC via python-usbtmc (uses libusb)
 * TCP Socket (remote connection e.g. via [rpi-usbtmc-gateway][])
 * VXI-11 (an RPC-based TCP connection, not really usbtmc)
 * RS232
 
-You'll automatically gain a large deal of platform independence.
+As already mentioned, you'll automatically gain a large deal
+of platform independence as any operating system will support
+at least some of those backends.
 
 ### Installation
 
-    pip install https://github.com/pklaus/universal_usbtmc/archive/master.zip
+    pip install universal_usbtmc
 
 ### Usage
 
-This software is mainly made to be used by other software, not humans.
+This software is mainly made to be used by other software, not humans.  
 It comes, however, with a small command line tool called `usbtmc-shell`.
-You can use it to test if the different backends work for you.  
+You can use it to test if the different backends work for you.
+(Or for trying to talk to a new device you just bought.)
 See below in the backends sections on how to use it with different backends.
 
 ### Backends
 
 To communicate with your device, the following backends are available:
 
-* `pyserial`
-* `python_usbtmc`
 * `linux_kernel`
+* `python_usbtmc`
 * `tcp_socket`
+* `python_vxi11`
+* `pyserial`
 
 ### Backend Details
 
