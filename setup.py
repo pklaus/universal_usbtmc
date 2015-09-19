@@ -17,7 +17,11 @@ setup(name='universal_usbtmc',
       url = 'https://github.com/pklaus/universal_usbtmc',
       license = 'GPL',
       packages = ['universal_usbtmc', 'universal_usbtmc.backends'],
-      scripts = ['scripts/usbtmc-shell',],
+      entry_points = {
+        'console_scripts': [
+            'usbtmc-shell = universal_usbtmc.usbtmc_shell:main',
+        ],
+      },
       zip_safe = True,
       platforms = 'any',
       keywords = 'USBTMC',
