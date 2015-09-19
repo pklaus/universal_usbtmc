@@ -1,6 +1,6 @@
 
 """
-http://www.eevblog.com/forum/testgear/rigol-ds1074z-times-out-with-linux-usbtmc-drivers-and-python-scripts/
+TCP Socket backend
 """
 
 import re
@@ -10,7 +10,7 @@ import time
 import logging
 
 import universal_usbtmc
-from universal_usbtmc import UsbtmcError, UsbtmcPermissionError, UsbtmcNoSuchFileError, UsbtmcReadTimeoutError
+from universal_usbtmc.exceptions import *
 
 logger = logging.getLogger(__name__)
 
@@ -30,9 +30,9 @@ class Instrument(universal_usbtmc.Instrument):
     EOL = ''
     RESOURCE_RE = r'TCPIP::(?P<host>[^:]*)(::(?P<port>\d+))?::(SOCKET|INSTR)'
     DEFAULT_PORT = 5025
-    socket_timeout = .05
+    socket_timeout = .005
     min_wait = 0.9
-    wait_after_write = 20E-3
+    wait_after_write = 0
 
     def __init__(self, host_string):
         match = re.match(self.RESOURCE_RE, host_string)
