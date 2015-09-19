@@ -1,6 +1,6 @@
 
 """
-PySerial backend based on:
+A backend for PySerial based on:
 https://github.com/python-ivi/python-ivi/blob/master/ivi/interface/pyserial.py
 
 Copyright (c) 2012-2014 Alex Forencich
@@ -32,20 +32,10 @@ def parse_visa_resource_string(resource_string):
     # ASRL::/dev/ttyUSB0::INSTR
     # ASRL::/dev/ttyUSB0,9600::INSTR
     # ASRL::/dev/ttyUSB0,9600,8n1::INSTR
-    m = re.match('^(?P<prefix>(?P<type>ASRL)\d*)(::(?P<arg1>[^\s:]+))?(::(?P<suffix>INSTR))$',
-            resource_string, re.I)
+    m = re.match('^ASRL(?P<port>\d*)(::(?P<arg>[^\s:]+))?::INSTR$', resource_string, re.I)
 
     if m is not None:
-        return dict(
-                type = m.group('type').upper(),
-                prefix = m.group('prefix'),
-                arg1 = m.group('arg1'),
-                suffix = m.group('suffix'),
-        )
-
-    """ A backend for PySerial
-        https://github.com/alexforencich/python-usbtmc
-    """
+        return {port: m.group('port'), arg: m.group('arg')}
 
 class Instrument(universal_usbtmc.Instrument):
     "Serial instrument interface client"
@@ -58,15 +48,14 @@ class Instrument(universal_usbtmc.Instrument):
             if res is None:
                 raise IOError("Invalid resource string")
 
-            index = res['prefix'][4:]
-            if len(index) > 0:
-                port = int(index)
+            if res['port']:
+                port = int(res['port'])
             else:
                 # port[,baud[,nps]]
                 # n = data bits (5,6,7,8)
                 # p = parity (n,o,e,m,s)
                 # s = stop bits (1,1.5,2)
-                t = res['arg1'].split(',')
+                t = res['arg'].split(',')
                 port = t[0]
                 if len(t) > 1:
                     baudrate = int(t[1])
