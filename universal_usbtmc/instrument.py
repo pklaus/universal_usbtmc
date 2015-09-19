@@ -9,10 +9,7 @@ class Instrument(object):
 
     def __init__(self, device):
         raise NotImplementedError()
-    
-    def reset(self):
-        raise NotImplementedError()
-    
+
     def write_raw(self, data):
         "Write binary data to instrument"
         raise NotImplementedError()
@@ -55,18 +52,6 @@ class Instrument(object):
         self.write(message, encoding=encoding)
         return self.read(num, encoding=encoding)
 
-    def sendReset(self):
-        self.write("*RST")
-
     @property
     def idn(self):
         return self.query("*IDN?", 300)
- 
-    def remote(self):
-        "Send remote command"
-        raise NotImplementedError()
-    
-    def local(self):
-        "Send local command"
-        raise NotImplementedError()
-
