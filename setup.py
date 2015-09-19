@@ -19,7 +19,7 @@ desc  = __doc__.split('\n\n')[0]
 ldesc = '\n\n'.join(__doc__.split('\n\n')[1:-1])
 
 setup(name='universal_usbtmc',
-      version = '0.3.1',
+      version = '0.3-dev',
       description = desc,
       long_description = ldesc,
       author = 'Philipp Klaus',
