@@ -3,8 +3,11 @@ import logging
 
 import universal_usbtmc
 
-# This is usbtmc from https://github.com/python-ivi/python-usbtmc
-import usbtmc
+# python-usbtmc from https://github.com/python-ivi/python-usbtmc
+try:
+    import usbtmc
+except ImportError:
+    raise universal_usbtmc.UsbtmcMissingDependency(['python-usbtmc'])
 
 logger = logging.getLogger(__name__)
 

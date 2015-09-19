@@ -23,7 +23,7 @@ import time
 import logging
 
 import universal_usbtmc
-from universal_usbtmc import UsbtmcError, UsbtmcPermissionError, UsbtmcNoSuchFileError, UsbtmcReadTimeoutError
+from universal_usbtmc.exceptions import *
 
 logger = logging.getLogger(__name__)
 

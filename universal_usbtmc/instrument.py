@@ -1,3 +1,5 @@
+def list_devices():
+    raise NotImplementedError()
 
 class Instrument(object):
 
@@ -67,27 +69,4 @@ class Instrument(object):
     def local(self):
         "Send local command"
         raise NotImplementedError()
-
-
-class UsbtmcError(Exception):
-    pass
-
-class UsbtmcPermissionError(UsbtmcError):
-    pass
-
-class UsbtmcNoSuchFileError(UsbtmcError):
-    pass
-
-try:
-    TimeoutError
-except NameError:
-    class TimeoutError(OSError):
-        pass
-
-class UsbtmcReadTimeoutError(UsbtmcError, TimeoutError):
-    pass
-
-
-def list_devices():
-    raise NotImplementedError()
 

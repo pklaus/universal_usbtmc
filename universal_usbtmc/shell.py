@@ -7,7 +7,7 @@ A shell for USBTMC devices
 import argparse
 
 from universal_usbtmc import import_backend
-from universal_usbtmc import UsbtmcReadTimeoutError
+from universal_usbtmc.exceptions import *
 
 # Py2 fix for input()
 try: input = raw_input
@@ -33,10 +33,11 @@ def main():
     args.line_ending = args.line_ending.replace("\\n", "\n").replace("\\r","\r")
     try:
         backend = import_backend(args.backend)
-        Instrument = backend.Instrument
-    except ImportError:
-        parser.error('choose a valid backend')
-    be = Instrument(args.device)
+    except UsbtmcNoSuchBackend:
+        parser.error('Unknown backend {}.'.format(args.backend))
+    except UsbtmcMissingDependency as md:
+        parser.error('The backend could not be loaded, ' + str(md))
+    be = backend.Instrument(args.device)
     print(HOWTO)
     print('> *IDN?')
     print(be.query("*IDN?"))

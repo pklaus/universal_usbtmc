@@ -16,7 +16,10 @@ import re
 import universal_usbtmc
 
 # PySerial:
-import serial
+try:
+    import serial
+except ImportError:
+    raise universal_usbtmc.UsbtmcMissingDependency(['PySerial'])
 
 logger = logging.getLogger(__name__)
 
