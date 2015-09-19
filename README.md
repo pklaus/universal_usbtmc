@@ -15,6 +15,7 @@ You can use the following instrument implementations
 
 * USBTMC via Linux kernel module or python-usbtmc (uses libusb)
 * TCP Socket (remote connection e.g. via [rpi-usbtmc-gateway][])
+* VXI-11 (an RPC-based TCP connection, not really usbtmc)
 * RS232
 
 You'll automatically gain a large deal of platform independence.
@@ -82,6 +83,25 @@ To connect using the *tcp_socket* backend, run:
 
 This backend has no external dependencies and works on all operating systems.
 
+#### `python_vxi11`
+
+This backend connects to your instrument via VXI-11.
+This is not USBTMC in a way but the interface with SCPI commands is usually the same.
+
+Uses the Python library [python-vxi11][].
+
+To connect using the *python_vxi11* backend, run:
+
+    usbtmc-shell --backend python_vxi11 192.168.0.21
+    # or
+    usbtmc-shell --backend python_vxi11 TCPIP::192.168.0.21::INSTR
+
+To use this backend, install python-vxi:
+
+    pip install python-vxi11
+
+The backend should work on all operating systems.
+
 #### `pyserial`
 
 This backend uses [PySerial][] to connect to your device via RS232.
@@ -98,4 +118,5 @@ Off course, you need to install [PySerial][] first! The backend works on all ope
 [usbtmc.c]: https://github.com/torvalds/linux/blob/master/drivers/usb/class/usbtmc.c
 [PySerial]: http://pyserial.sourceforge.net/
 [python-usbtmc]: https://github.com/python-ivi/python-usbtmc
+[python-vxi11]: https://github.com/python-ivi/python-vxi11
 [rpi-usbtmc-gateway]: https://github.com/pklaus/rpi-usbtmc-gateway
