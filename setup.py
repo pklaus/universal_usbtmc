@@ -29,7 +29,7 @@ setup(name='universal_usbtmc',
       packages = ['universal_usbtmc', 'universal_usbtmc.backends'],
       entry_points = {
         'console_scripts': [
-            'usbtmc-shell = universal_usbtmc.usbtmc_shell:main',
+            'usbtmc-shell = universal_usbtmc.shell:main',
         ],
       },
       zip_safe = True,
