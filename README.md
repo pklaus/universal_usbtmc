@@ -85,6 +85,8 @@ You can put it on the net with [rpi-usbtmc-gateway][]!
 To connect using the *tcp_socket* backend, run:
 
     usbtmc-shell --backend tcp_socket 192.168.0.21
+    # or
+    usbtmc-shell --backend tcp_socket TCPIP::192.168.0.21::5025::SOCKET
 
 This backend has no external dependencies and works on all operating systems.
 

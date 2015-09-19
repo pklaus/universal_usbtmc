@@ -3,6 +3,7 @@
 http://www.eevblog.com/forum/testgear/rigol-ds1074z-times-out-with-linux-usbtmc-drivers-and-python-scripts/
 """
 
+import re
 import select
 import socket
 import time
@@ -27,14 +28,20 @@ class Instrument(universal_usbtmc.Instrument):
     """
 
     EOL = ''
-    #EOL = '\n'
+    RESOURCE_RE = r'TCPIP::(?P<host>[^:]*)(::(?P<port>\d+))?::(SOCKET|INSTR)'
+    DEFAULT_PORT = 5025
     socket_timeout = .05
     min_wait = 0.9
     wait_after_write = 20E-3
 
-    def __init__(self, host, port=5025):
-        self.host = host
-        self.port = port
+    def __init__(self, host_string):
+        match = re.match(self.RESOURCE_RE, host_string)
+        if match:
+            self.host = match.group('host')
+            self.port = match.group('port') or self.DEFAULT_PORT
+        else:
+            self.host = host_string
+            self.port = self.DEFAULT_PORT
         self.connect()
 
     def connect(self):
