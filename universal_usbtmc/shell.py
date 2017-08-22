@@ -25,6 +25,8 @@ def main():
     parser.add_argument('--backend', '-b', #choices=('linux_kernel', 'python_usbtmc'),
         default='linux_kernel',
         help='The backend to use')
+    parser.add_argument('--no-idn', action='store_true',
+        help="Don't send '*IDN?' when starting up. Some devices might not respond.")
     parser.add_argument('--line-ending', default='',
         help="The line ending to add to commands you're sending")
     parser.add_argument('device', help='')
@@ -39,8 +41,15 @@ def main():
         parser.error('The backend could not be loaded, ' + str(md))
     be = backend.Instrument(args.device)
     print(HOWTO)
-    print('> *IDN?')
-    print(be.query("*IDN?"))
+    if not args.no_idn:
+        try:
+            print('> *IDN?')
+            print(be.query("*IDN?"+args.line_ending))
+        except Exception as e:
+            print("Error: device not responding.")
+            print(str(e))
+            print("Try again with   --line-ending \\\\n")
+            print("or if this doesn't help with   --no-idn .")
     try:
         while True:
             cmd = input('> ')
