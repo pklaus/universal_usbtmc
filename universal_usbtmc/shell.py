@@ -28,7 +28,9 @@ def main():
     parser.add_argument('--no-idn', action='store_true',
         help="Don't send '*IDN?' when starting up. Some devices might not respond.")
     parser.add_argument('--line-ending', default='',
-        help="The line ending to add to commands you're sending")
+        help="The line ending to add to commands you're sending. "
+             r'You can specify newline with an escaped backslash: "\\n"'
+             r'(or carriage return: "\\r"). The default is no line ending ("").')
     parser.add_argument('device', help='')
     args = parser.parse_args()
 
