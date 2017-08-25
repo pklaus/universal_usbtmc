@@ -1,28 +1,35 @@
 # -*- coding: utf-8 -*-
 
 """
-Universal Python Interface For Different USBTMC Backends.
-
-Github: https://github.com/pklaus/universal_usbtmc
-
-Copyright (c) 2015, Philipp Klaus. All rights reserved.
+Copyright (c) 2015-2017, Philipp Klaus. All rights reserved.
 """
 
-from setuptools import setup
+try:
+    from setuptools import setup
+except ImportError:
+    from distutils.core import setup
 
-desc  = __doc__.split('\n\n')[0]
-ldesc = '\n\n'.join(__doc__.split('\n\n')[1:-1])
 try:
     import pypandoc
-    tmp_txt = open('README.md', 'r').read()
-    ldesc += '\n\n' + pypandoc.convert(tmp_txt, 'rst', format='md')
-except (ImportError, IOError, RuntimeError):
-    pass
+    # for PyPI: Removing images with relative paths and their descriptions:
+    import re
+    LDESC = open('README.md', 'r').read()
+    matches = re.findall(r'\n\n(.*(\n.+)*:\n\n!\[.*\]\((.*\))(\n\n)?)', LDESC)
+    for match in matches:
+        text, _, link, _ = match
+        if text.startswith('http://'): continue
+        LDESC = LDESC.replace(text, '')
+    # Converting to rst
+    LDESC = pypandoc.convert(LDESC, 'rst', format='md')
+except (ImportError, IOError, RuntimeError) as e:
+    print("Could not create long description:")
+    print(str(e))
+    LDESC = ''
 
 setup(name='universal_usbtmc',
       version = '0.3-dev',
-      description = desc,
-      long_description = ldesc,
+      description = "Universal Python Interface For Different USBTMC Backends",
+      long_description = LDESC,
       author = 'Philipp Klaus',
       author_email = 'philipp.l.klaus@web.de',
       url = 'https://github.com/pklaus/universal_usbtmc',
@@ -34,6 +41,7 @@ setup(name='universal_usbtmc',
         ],
       },
       zip_safe = True,
+      include_package_data = True,
       platforms = 'any',
       keywords = 'USBTMC',
       classifiers = [
