@@ -14,10 +14,10 @@ You can use the following instrument implementations
 ("backends") in your software:
 
 * USBTMC via the Linux kernel module
-* USBTMC via python-usbtmc (uses libusb)
-* TCP Socket (remote connection e.g. via [rpi-usbtmc-gateway][])
-* VXI-11 (an RPC-based TCP connection, not really usbtmc)
-* RS232
+* USBTMC via [python-usbtmc][] (uses libusb)
+* TCP Socket via [socket][] (remote connection e.g. via [rpi-usbtmc-gateway][])
+* VXI-11 via [python-vxi11][] (an RPC-based TCP connection, not really usbtmc)
+* RS-232 via [PySerial][]
 
 As already mentioned, you'll automatically gain a large deal
 of platform independence as any operating system will support
@@ -126,4 +126,5 @@ Off course, you need to install [PySerial][] first! The backend works on all ope
 [PySerial]: http://pyserial.sourceforge.net/
 [python-usbtmc]: https://github.com/python-ivi/python-usbtmc
 [python-vxi11]: https://github.com/python-ivi/python-vxi11
+[socket]: https://docs.python.org/3/library/socket.html
 [rpi-usbtmc-gateway]: https://github.com/pklaus/rpi-usbtmc-gateway
