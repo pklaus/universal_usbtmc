@@ -69,10 +69,9 @@ Here's how to use the usbtmc shell with it:
 
     usbtmc-shell --backend python_usbtmc USB::0x1ab1::0x0588::INSTR
 
-To use the backend `python_usbtmc`, you need to install the requirements python-usbtmc and pyusb:
+To use the backend `python_usbtmc`, you need to install the requirements [python-usbtmc][] and [PyUSB][]:
 
-    pip install https://github.com/alexforencich/python-usbtmc/archive/master.zip
-    pip install https://github.com/walac/pyusb/archive/master.zip
+    pip install python-usbtmc pyusb
 
 The backend works on Mac OS X and Linux.
 
@@ -125,6 +124,7 @@ Off course, you need to install [PySerial][] first! The backend works on all ope
 [usbtmc.c]: https://github.com/torvalds/linux/blob/master/drivers/usb/class/usbtmc.c
 [PySerial]: http://pyserial.sourceforge.net/
 [python-usbtmc]: https://github.com/python-ivi/python-usbtmc
+[PyUSB]: https://github.com/walac/pyusb
 [python-vxi11]: https://github.com/python-ivi/python-vxi11
 [socket]: https://docs.python.org/3/library/socket.html
 [rpi-usbtmc-gateway]: https://github.com/pklaus/rpi-usbtmc-gateway

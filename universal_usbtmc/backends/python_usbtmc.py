@@ -3,11 +3,13 @@ import logging
 
 import universal_usbtmc
 
+# PyUSB         from https://github.com/walac/pyusb
 # python-usbtmc from https://github.com/python-ivi/python-usbtmc
 try:
+    import usb.core
     import usbtmc
 except ImportError:
-    raise universal_usbtmc.UsbtmcMissingDependency(['python-usbtmc'])
+    raise universal_usbtmc.UsbtmcMissingDependency(['pyusb', 'python-usbtmc'])
 
 logger = logging.getLogger(__name__)
 
