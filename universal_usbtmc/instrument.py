@@ -102,7 +102,6 @@ class Instrument(object):
         then read and return a response string.
         :param str line_ending: The line ending to add to the message
         """
-        encoding = self.ENCODING if encoding == 'default' else encoding
         if type(message) is tuple or type(message) is list:
             # recursive call for a list of commands
             val = list()
