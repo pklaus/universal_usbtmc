@@ -28,6 +28,8 @@ class Instrument(object):
 
     #: The encoding used when interpreting bytes as strings
     ENCODING = 'utf-8'
+    #: The line ending to add to write() or query() commands
+    LINE_ENDING = ''
 
     def __init__(self, device):
         """
@@ -69,7 +71,7 @@ class Instrument(object):
             for message_i in message:
                 self.write(message_i, encoding)
             return
-        self.write_raw(str(message).encode(encoding))
+        self.write_raw((str(message)+self.LINE_ENDING).encode(encoding))
 
     def read(self, num=-1, encoding='default'):
         """
