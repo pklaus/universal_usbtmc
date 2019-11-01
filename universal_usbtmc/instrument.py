@@ -15,7 +15,7 @@ find out how to use the backends:
 def list_devices():
     raise NotImplementedError()
 
-class Instrument(object):
+class Instrument():
 
     """
     USBTMC instrument interface
