@@ -11,8 +11,9 @@ class Instrument(IInstrument):
         if isinstance(device, int):
             device = rm.list_resources()[device]
         if isinstance(device, str):
-            device = rm.open_resource(device, timeout=10, *args, **kwargs)
+            device = rm.open_resource(device, timeout=10000, *args, **kwargs)
         self.__dict__["device"] = device
+        self.device.enable_event(pyvisa.constants.VI_EVENT_SERVICE_REQ, pyvisa.constants.VI_QUEUE, context=None)
 
     def __getattr__(self, k):
         #print("__getattr__", k)
@@ -46,3 +47,9 @@ class Instrument(IInstrument):
     def query(self, message, num=-1, encoding='default', line_ending='default'):
         #print("query", message)
         return self.device.query(message)
+
+    def assert_trigger(self):
+        self.device.assert_trigger()
+    
+    def wait_on_event(self, event=pyvisa.constants.VI_EVENT_SERVICE_REQ):
+        self.device.wait_on_event(event, self.device.timeout)
