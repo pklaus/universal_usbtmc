@@ -19,6 +19,8 @@ class Instrument(universal_usbtmc.Instrument):
     """
 
     def __init__(self, device):
+        if isinstance(device, int):
+            device = usbtmc.list_devices()[device]
         self.instr = usbtmc.Instrument(device)
 
     def read_raw(self, num, timeout=0.0):
