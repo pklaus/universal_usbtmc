@@ -35,7 +35,7 @@ def parse_visa_resource_string(resource_string):
     m = re.match('^ASRL(?P<port>\d*)(::(?P<arg>[^\s:]+))?::INSTR$', resource_string, re.I)
 
     if m is not None:
-        return {port: m.group('port'), arg: m.group('arg')}
+        return {'port': m.group('port'), 'arg': m.group('arg')}
 
 class Instrument(universal_usbtmc.Instrument):
     "Serial instrument interface client"
